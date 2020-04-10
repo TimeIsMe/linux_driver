@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "init.h": "c",
+        "module.h": "c",
+        "types.h": "c",
+        "kdev_t.h": "c",
+        "fs.h": "c",
+        "uaccess.h": "c"
+    }
+}
