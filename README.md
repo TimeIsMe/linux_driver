@@ -7,3 +7,5 @@ This is my workplace for practice the Linux driver.
 
 ---dtsled	It's a led device driver base on device-tree for imx6ull SOC.
 
+---interprocess_communication	Tt's a directory about interprocess communication.
+  |---1_pipe	It's implement interprocess communication using pipe.
