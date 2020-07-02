@@ -9,3 +9,4 @@ This is my workplace for practice the Linux driver.
 
 ---interprocess_communication	Tt's a directory about interprocess communication.
   |---1_pipe	It's implement interprocess communication using pipe.
+  |---2_named_pipe	It's implement interprocess communication using named pipe.
