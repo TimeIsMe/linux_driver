@@ -14,3 +14,4 @@ This is my workplace for practice the Linux driver.
 &nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
 &nbsp;&nbsp;|---3_message_queue	It's implement interprocess communication using message queue.  
 &nbsp;&nbsp;|---4_shared_memory It's implement interprocess communication using shared memory.  
+&nbsp;&nbsp;|---5_semaphore     It's implement interprocess communication using semaphore.  
