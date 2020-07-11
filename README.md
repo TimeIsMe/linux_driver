@@ -7,7 +7,9 @@ This is my workplace for practice the Linux driver.
 
 ---new_template It's a new template linux device driver, no real options to registers.  
 
----dtsled	It's a led device driver base on device-tree for imx6ull SOC.  
+---dtsled	It's a led device driver based on device-tree for imx6ull SOC.  
+
+---pinctrl_gpioSubSys It's a led device driver based on pinctrl and gpio sub system.  
 
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
