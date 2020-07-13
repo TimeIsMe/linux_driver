@@ -11,6 +11,8 @@ This is my workplace for practice the Linux driver.
 
 ---pinctrl_gpioSubSys It's a led device driver based on pinctrl and gpio sub system.  
 
+---pinctrl_beep It's modified from pinctrl_gpioSubSys.  
+
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
 &nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
