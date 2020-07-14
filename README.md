@@ -13,6 +13,8 @@ This is my workplace for practice the Linux driver.
 
 ---pinctrl_beep It's modified from pinctrl_gpioSubSys.  
 
+---key		It's modified from pinctrl_gpioSubSys with atomic operation.
+
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
 &nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
