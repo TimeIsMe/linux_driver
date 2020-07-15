@@ -1,6 +1,6 @@
 KERNELDIR	:=	/home/ml/linux/linux_kernel
 CURRENT_PATH	:=	$(shell pwd)
-obj-m	:=	gpioled.o
+obj-m	:=	timer_gpioled.o
 
 build:	kernel_modules
 

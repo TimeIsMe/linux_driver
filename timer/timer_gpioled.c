@@ -10,12 +10,18 @@
 #include <linux/of_address.h>
 #include <linux/of_gpio.h>
 #include <linux/errno.h>
+#include <linux/timer.h>
+#include <linux/semaphore.h>
+
 
 
 #define GPIOLED_CNT     1
 #define GPIOLED_NAME    "gpioled"
 #define LEDOFF          0
 #define LEDON           1
+#define CLOSE_CMD       (_IO(0xEF, 0x01))
+#define OPEN_CMD        (_IO(0xEF, 0x02))
+#define SETPERIOD_CMD   (_IO(0xEF, 0x03))
 
 //Function declaration.
 static int led_open(struct inode *nd, struct file *fp);
@@ -29,7 +35,7 @@ static ssize_t led_write(struct file *fp,\
              loff_t *u_loff);
 static int led_release(struct inode *np,\
                 struct file *fp);
-
+static long led_ioctl(struct file *fp, unsigned int cmd, unsigned long arg);
 
 static struct gpioled_dev{
     dev_t   devid;              //Device indentifer number.
@@ -40,20 +46,42 @@ static struct gpioled_dev{
     int minor;
     struct device_node *nd;     
     int led_gpio;               //Number of gpio used by led.
-} gpioled;                      //Led device.
+    struct timer_list timer;
+    int time_period;
+    spinlock_t  lock;
+} gpioled;                    
+//struct gpioled_dev gpioled;//Led device.
 
+//long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
 static struct file_operations gpioled_fops = {
     .owner = THIS_MODULE,
     .open = led_open,
     .read = led_read,
     .write = led_write,
     .release = led_release,
+    .unlocked_ioctl = led_ioctl,
 };
+
+void timer_callback(unsigned long arg){
+    struct gpioled_dev *dev = (struct gpioled_dev *)arg;
+    static int sta = 1;
+    int timerperiod;
+    unsigned long flag;
+
+    sta = !sta;
+    gpio_set_value(dev->led_gpio, sta);
+
+    spin_lock_irqsave(&dev->lock, flag);
+    timerperiod = dev->time_period;
+    spin_unlock_irqrestore(&dev->lock, flag);
+    mod_timer(&dev->timer, jiffies + msecs_to_jiffies(timerperiod));
+}
 
 static int __init led_init(void)
 {
     int ret = 0;
 
+    spin_lock_init(&gpioled.lock);
 
     //1. get device tree node.
     gpioled.nd = of_find_node_by_path("/gpioled");
@@ -70,6 +98,7 @@ static int __init led_init(void)
 
 
     //2. Initilize the gpio's value.
+    gpio_request(gpioled.led_gpio, "led");
     ret = gpio_direction_output(gpioled.led_gpio, 1);
     if(ret < 0){
         printk("Can't set gpio.\r\n");
@@ -97,11 +126,17 @@ static int __init led_init(void)
         return PTR_ERR(gpioled.device);
     }
 
+    init_timer(&gpioled.timer);
+    gpioled.timer.function = timer_callback;
+    gpioled.timer.data = (unsigned long)&gpioled;
+
     return 0;
 }
 
 static void __exit led_exit(void)
 {
+    gpio_set_value(gpioled.led_gpio, 1);
+    del_timer_sync(&gpioled.timer);
     cdev_del(&gpioled.cdev);
     unregister_chrdev_region(gpioled.devid, GPIOLED_CNT);
     device_destroy(gpioled.class, gpioled.devid);
@@ -118,6 +153,7 @@ module_exit(led_exit);
 static int led_open(struct inode *nd, struct file *fp)
 {
     fp->private_data = &gpioled;
+    gpioled.time_period = 1000;
     return 0;
 }
 
@@ -160,3 +196,34 @@ static int led_release(struct inode *np,\
 {
     return 0;
 }
+
+
+static long led_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+{
+    struct gpioled_dev *dev = (struct gpioled_dev*)fp->private_data;
+    int timerperiod;
+    unsigned long flags;
+
+    switch(cmd){
+        case CLOSE_CMD:
+            del_timer_sync(&dev->timer);
+            break;
+        case OPEN_CMD:
+            spin_lock_irqsave(&dev->lock, flags);
+            timerperiod = dev->time_period;
+            spin_unlock_irqrestore(&dev->lock,flags);
+            mod_timer(&dev->timer, jiffies + msecs_to_jiffies(timerperiod));
+            break;
+        case SETPERIOD_CMD:
+            spin_lock_irqsave(&dev->lock, flags);
+            timerperiod = arg;
+            dev->time_period = arg;
+            spin_unlock_irqrestore(&dev->lock, flags);
+            mod_timer(&dev->timer, jiffies+ msecs_to_jiffies(timerperiod));
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
