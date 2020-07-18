@@ -17,11 +17,13 @@ This is my workplace for practice the Linux driver.
 
 ---timer	It's modified from pinctrl_gpioSubSys with linux kernel timer.  
 
----irqkey	There is atomic operation, kernel timer and interrupt for key.
+---irqkey	There is atomic operation, kernel timer and interrupt for key.  
+
+---blockio	Inherit from irqkey, and change the nonblock poll to block read.  
 
 ---interprocess_communication	It's a directory about interprocess communication.  
-&nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
-&nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
-&nbsp;&nbsp;|---3_message_queue	It's implement interprocess communication using message queue.  
-&nbsp;&nbsp;|---4_shared_memory It's implement interprocess communication using shared memory.  
-&nbsp;&nbsp;|---5_semaphore     It's implement interprocess communication using semaphore.  
+&nbsp;&nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
+&nbsp;&nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
+&nbsp;&nbsp;&nbsp;|---3_message_queue	It's implement interprocess communication using message queue.  
+&nbsp;&nbsp;&nbsp;|---4_shared_memory It's implement interprocess communication using shared memory.  
+&nbsp;&nbsp;&nbsp;|---5_semaphore     It's implement interprocess communication using semaphore.  
