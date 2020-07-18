@@ -17,6 +17,8 @@ This is my workplace for practice the Linux driver.
 
 ---timer	It's modified from pinctrl_gpioSubSys with linux kernel timer.  
 
+---irqkey	There is atomic operation, kernel timer and interrupt for key.
+
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
 &nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
