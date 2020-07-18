@@ -19,7 +19,9 @@ This is my workplace for practice the Linux driver.
 
 ---irqkey	There is atomic operation, kernel timer and interrupt for key.  
 
----blockio	Inherit from irqkey, and change the nonblock poll to block read.  
+---blockio	Inherit from irqkey, and change the app poll to block read.  
+
+---noblockio	Inherit from blockio, and change block read to nonblock poll.  
 
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
