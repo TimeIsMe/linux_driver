@@ -23,6 +23,8 @@ This is my workplace for practice the Linux driver.
 
 ---noblockio	Inherit from blockio, and change block read to nonblock poll.  
 
+---asyncnoti	Inherit from noblockio, and add the asynchronous notifications.  
+
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
 &nbsp;&nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
