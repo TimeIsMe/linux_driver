@@ -27,6 +27,8 @@ This is my workplace for practice the Linux driver.
 
 ---platform_ndt	Platform driver without device tree.  
 
+---misc_driver	misc char driver.  
+
 ---interprocess_communication	It's a directory about interprocess communication.  
 &nbsp;&nbsp;&nbsp;|---1_pipe	It's implement interprocess communication using pipe.  
 &nbsp;&nbsp;&nbsp;|---2_named_pipe	It's implement interprocess communication using named pipe.  
